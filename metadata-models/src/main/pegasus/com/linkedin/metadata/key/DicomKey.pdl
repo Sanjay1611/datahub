@@ -1,0 +1,16 @@
+namespace com.linkedin.metadata.key
+
+/**
+ * Key for a Dicom
+ */
+@Aspect = {
+  "name": "dicomKey"
+}
+record DicomKey {
+    @Searchable = {
+    "fieldType": "TEXT_PARTIAL",
+    "boostScore": 4.0,
+    "enableAutocomplete": true
+  }
+  dicomName: string
+}

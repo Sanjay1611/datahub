@@ -142,3 +142,9 @@ entities:
     keyAspect: dataHubRetentionKey
     aspects:
       - dataHubRetentionConfig
+  - name: dicom
+    keyAspect: dicomKey
+    aspects:
+      - dicomInfo
+      - browsePaths
+      - ownership

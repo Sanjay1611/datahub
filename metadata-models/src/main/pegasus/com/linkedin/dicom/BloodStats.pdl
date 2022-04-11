@@ -1,0 +1,6 @@
+namespace com.linkedin.dicom
+
+record BloodStats {
+  rbcCount: int
+  wbcCount: int
+}

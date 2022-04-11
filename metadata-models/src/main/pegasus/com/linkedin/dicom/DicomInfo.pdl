@@ -1,0 +1,35 @@
+namespace com.linkedin.dicom
+
+import com.linkedin.common.Url
+
+/**
+ * Information about a dicom
+ */
+@Aspect = {
+  "name": "dicomInfo"
+}
+record DicomInfo {
+
+  fileURI: Url
+
+  @Searchable = {
+    "fieldType": "TEXT_PARTIAL",
+    "enableAutocomplete": true
+  }
+  patientName: string
+
+  @Searchable = {
+    "addToFilters": true
+  }
+  patientGender: string
+
+  @Searchable = {
+    "fieldType": "TEXT_PARTIAL",
+    "enableAutocomplete": true
+  }
+  patientDisease: string
+
+  bloodStats: BloodStats
+
+  embeddingVector: array[int]
+}

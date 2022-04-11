@@ -66,6 +66,7 @@ import com.linkedin.datahub.graphql.resolvers.domain.DomainEntitiesResolver;
 import com.linkedin.datahub.graphql.resolvers.domain.ListDomainsResolver;
 import com.linkedin.datahub.graphql.resolvers.domain.SetDomainResolver;
 import com.linkedin.datahub.graphql.resolvers.domain.UnsetDomainResolver;
+import com.linkedin.datahub.graphql.resolvers.dicom.ListDicomResolver;
 import com.linkedin.datahub.graphql.resolvers.group.AddGroupMembersResolver;
 import com.linkedin.datahub.graphql.resolvers.group.CreateGroupResolver;
 import com.linkedin.datahub.graphql.resolvers.group.EntityCountsResolver;
@@ -140,6 +141,7 @@ import com.linkedin.datahub.graphql.types.datajob.DataJobType;
 import com.linkedin.datahub.graphql.types.dataplatform.DataPlatformType;
 import com.linkedin.datahub.graphql.types.dataset.DatasetType;
 import com.linkedin.datahub.graphql.types.dataset.mappers.DatasetProfileMapper;
+import com.linkedin.datahub.graphql.types.dicom.DicomType;
 import com.linkedin.datahub.graphql.types.domain.DomainType;
 import com.linkedin.datahub.graphql.types.glossary.GlossaryTermType;
 import com.linkedin.datahub.graphql.types.mlmodel.MLFeatureTableType;
@@ -230,6 +232,7 @@ public class GmsGraphQLEngine {
     private final UsageType usageType;
     private final ContainerType containerType;
     private final DomainType domainType;
+    private final DicomType dicomType;
     private final AssertionType assertionType;
 
 
@@ -327,6 +330,7 @@ public class GmsGraphQLEngine {
         this.usageType = new UsageType(this.usageClient);
         this.containerType = new ContainerType(entityClient);
         this.domainType = new DomainType(entityClient);
+        this.dicomType = new DicomType(entityClient);
         this.assertionType = new AssertionType(entityClient);
 
         // Init Lists
@@ -348,6 +352,7 @@ public class GmsGraphQLEngine {
             glossaryTermType,
             containerType,
             domainType,
+            dicomType,
             assertionType
         );
         this.loadableTypes = new ArrayList<>(entityTypes);
@@ -629,6 +634,10 @@ public class GmsGraphQLEngine {
                 new GetIngestionSourceResolver(this.entityClient))
             .dataFetcher("executionRequest",
                 new GetIngestionExecutionRequestResolver(this.entityClient))
+                .dataFetcher("listDicom", new ListDicomResolver(this.entityClient))
+                .dataFetcher("dicom",
+                new LoadableTypeResolver<>(dicomType,
+                    (env) -> env.getArgument(URN_FIELD_NAME)))
         );
     }
 
@@ -1203,6 +1212,15 @@ public class GmsGraphQLEngine {
             ))
         );
     }
+//
+//    private void configureDicomResolvers(final RuntimeWiring.Builder builder) {
+//        builder.type("Dicom", typeWiring -> typeWiring
+//                .dataFetcher("entities", new DomainEntitiesResolver(this.entityClient))
+//                .dataFetcher("relationships", new AuthenticatedResolver<>(
+//                        new EntityRelationshipsResultResolver(graphClient)
+//                ))
+//        );
+//    }
 
     private void configureAssertionResolvers(final RuntimeWiring.Builder builder) {
         builder.type("Assertion", typeWiring -> typeWiring.dataFetcher("relationships",

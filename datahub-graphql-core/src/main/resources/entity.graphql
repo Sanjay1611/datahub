@@ -123,6 +123,12 @@ type Query {
     List all DataHub Domains
     """
     listDomains(input: ListDomainsInput!): ListDomainsResult
+
+    """
+    List all Dicom Files
+    """
+    listDicom(input: ListDicomInput!): ListDicomResult
+    dicom(urn: String!): Dicom
 }
 
 """
@@ -421,6 +427,11 @@ enum EntityType {
     A DataHub Assertion
     """
     ASSERTION
+
+    """
+    A DataHub Dicom
+    """
+    DICOM
 }
 
 """
@@ -6621,4 +6632,124 @@ type Health {
   The causes responsible for the health status
   """
   causes: [String!]
+}
+
+"""
+A dicom Entity
+"""
+type Dicom implements Entity {
+    """
+    The primary key of the dicom
+    """
+    urn: String!
+
+    """
+    A standard Entity Type
+    """
+    type: EntityType!
+
+    """
+    Name of the dicom file
+    """
+    dicomName: String!
+
+    """
+    Properties about a domain
+    """
+    info: DicomInfo
+    """
+    Ownership metadata of the dataset
+    """
+    ownership: Ownership
+    """
+    Edges extending from this entity
+    """
+    relationships(input: RelationshipsInput!): EntityRelationshipsResult
+}
+
+"""
+Info about a dicom file
+"""
+type DicomInfo {
+    """
+    URI of the dicom file
+    """
+    fileURI: String!
+
+    """
+    Patient name
+    """
+    patientName: String!
+
+    """
+    Patient gender
+    """
+    patientGender: String!
+
+    """
+    Patient gender
+    """
+    patientDisease: String!
+
+    """
+    Patient blood stats
+    """
+    bloodStats: BloodStats!
+
+    """
+    Image content
+    """
+    embeddingVector: [Int!]
+}
+
+type BloodStats {
+    """
+    The number of rbc in the patient
+    """
+    rbcCount: Int!
+
+    """
+    The number of wbc in the patient
+    """
+    wbcCount: Int!
+}
+
+"""
+Input required when listing DataHub Domains
+"""
+input ListDicomInput {
+  """
+  The starting offset of the result set returned
+  """
+  start: Int
+
+  """
+  The maximum number of Dicom to be returned in the result set
+  """
+  count: Int
+}
+
+"""
+The result obtained when listing DataHub Dicoms
+"""
+type ListDicomResult {
+  """
+  The starting offset of the result set returned
+  """
+  start: Int!
+
+  """
+  The number of Dicom in the returned result set
+  """
+  count: Int!
+
+  """
+  The total number of Dicom in the result set
+  """
+  total: Int!
+
+  """
+  The Domains themselves
+  """
+  dicomFiles: [Dicom!]!
 }

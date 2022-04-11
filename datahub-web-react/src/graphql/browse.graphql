@@ -198,6 +198,17 @@ query getBrowseResults($input: BrowseInput!) {
                     ...platformFields
                 }
             }
+            ... on Dicom {
+                urn
+                type
+                dicomName
+                info {
+                    patientName
+                    patientGender
+                    patientDisease
+                    embeddingVector
+                }
+            }
         }
         groups {
             name

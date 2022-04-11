@@ -40,7 +40,7 @@ public class Constants {
   public static final String INGESTION_SOURCE_ENTITY_NAME = "dataHubIngestionSource";
   public static final String SECRETS_ENTITY_NAME = "dataHubSecret";
   public static final String EXECUTION_REQUEST_ENTITY_NAME = "dataHubExecutionRequest";
-
+  public static final String DICOM_ENTITY_NAME = "dicom";
 
   /**
    * Aspects
@@ -175,6 +175,10 @@ public class Constants {
   public static final String EXECUTION_REQUEST_INPUT_ASPECT_NAME = "dataHubExecutionRequestInput";
   public static final String EXECUTION_REQUEST_SIGNAL_ASPECT_NAME = "dataHubExecutionRequestSignal";
   public static final String EXECUTION_REQUEST_RESULT_ASPECT_NAME = "dataHubExecutionRequestResult";
+
+  // Dicom
+  public static final String DICOM_KEY_ASPECT_NAME = "name";
+  public static final String DICOM_INFO_ASPECT_NAME = "dicomInfo";
 
   /**
    * User Status

@@ -20,6 +20,7 @@ import com.linkedin.datahub.graphql.generated.MLFeature;
 import com.linkedin.datahub.graphql.generated.MLFeatureTable;
 import com.linkedin.datahub.graphql.generated.MLPrimaryKey;
 import com.linkedin.datahub.graphql.generated.MLModel;
+import com.linkedin.datahub.graphql.generated.Dicom;
 import com.linkedin.datahub.graphql.generated.MLModelGroup;
 import com.linkedin.datahub.graphql.types.mappers.ModelMapper;
 import javax.annotation.Nonnull;
@@ -124,6 +125,11 @@ public class UrnToEntityMapper implements ModelMapper<com.linkedin.common.urn.Ur
       partialEntity = new Assertion();
       ((Assertion) partialEntity).setUrn(input.toString());
       ((Assertion) partialEntity).setType(EntityType.ASSERTION);
+    }
+    if (input.getEntityType().equals("dicom")) {
+      partialEntity = new Dicom();
+      ((Dicom) partialEntity).setUrn(input.toString());
+      ((Dicom) partialEntity).setType(EntityType.DICOM);
     }
     return partialEntity;
   }

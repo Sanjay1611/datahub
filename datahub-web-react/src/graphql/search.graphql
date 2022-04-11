@@ -254,6 +254,16 @@ fragment searchResultFields on Entity {
             ...ownershipFields
         }
     }
+    ... on Dicom {
+        urn
+        type
+        dicomName
+        info {
+            patientName
+            patientGender
+            patientDisease
+        }
+    }
     ... on Container {
         urn
         properties {
