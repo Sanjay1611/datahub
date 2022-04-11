@@ -4,7 +4,8 @@ import { Entity, IconStyleType, PreviewType } from '../Entity';
 import { Dicom, EntityType, SearchResult } from '../../../types.generated';
 import { Preview } from './preview/Preview';
 import { EntityProfile } from '../shared/containers/profile/EntityProfile';
-import { GetDatasetQuery, useGetDatasetQuery, useUpdateDatasetMutation } from '../../../graphql/dataset.generated';
+import { useUpdateDatasetMutation } from '../../../graphql/dataset.generated';
+import { useGetDicomQuery } from '../../../graphql/dicom.generated';
 import { SchemaTab } from '../shared/tabs/Dataset/Schema/SchemaTab';
 import ViewDefinitionTab from '../shared/tabs/Dataset/View/ViewDefinitionTab';
 import { DocumentationTab } from '../shared/tabs/Documentation/DocumentationTab';
@@ -16,10 +17,6 @@ import { ValidationsTab } from '../shared/tabs/Dataset/Validations/ValidationsTa
 import { getDataForEntityType } from '../shared/containers/profile/utils';
 import { SidebarAboutSection } from '../shared/containers/profile/sidebar/SidebarAboutSection';
 import { SidebarOwnerSection } from '../shared/containers/profile/sidebar/Ownership/SidebarOwnerSection';
-
-const SUBTYPES = {
-    VIEW: 'view',
-};
 
 /**
  * Definition of the DataHub Dataset entity.
@@ -83,7 +80,7 @@ export class DicomEntity implements Entity<Dicom> {
         <EntityProfile
             urn={urn}
             entityType={EntityType.Dicom}
-            useEntityQuery={useGetDatasetQuery}
+            useEntityQuery={useGetDicomQuery}
             useUpdateQuery={useUpdateDatasetMutation}
             getOverrideProperties={this.getOverridePropertiesFromEntity}
             tabs={[
@@ -95,10 +92,8 @@ export class DicomEntity implements Entity<Dicom> {
                     name: 'View Definition',
                     component: ViewDefinitionTab,
                     display: {
-                        visible: (_, dataset: GetDatasetQuery) =>
-                            (dataset?.dataset?.subTypes?.typeNames?.includes(SUBTYPES.VIEW) && true) || false,
-                        enabled: (_, dataset: GetDatasetQuery) =>
-                            (dataset?.dataset?.viewProperties?.logic && true) || false,
+                        visible: () => true,
+                        enabled: () => false,
                     },
                 },
                 {

@@ -177,7 +177,7 @@ public class Constants {
   public static final String EXECUTION_REQUEST_RESULT_ASPECT_NAME = "dataHubExecutionRequestResult";
 
   // Dicom
-  public static final String DICOM_KEY_ASPECT_NAME = "name";
+  public static final String DICOM_KEY_ASPECT_NAME = "dicomKey";
   public static final String DICOM_INFO_ASPECT_NAME = "dicomInfo";
 
   /**

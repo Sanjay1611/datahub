@@ -1,0 +1,36 @@
+query getDicom($urn: String!) {
+    dicom(urn: $urn){
+    urn
+    type
+    info{
+      patientName
+      patientGender
+      patientDisease
+    } 
+  }
+}
+
+query listDicom($input: ListDicomInput!) {
+    listDicom(input: $input) {
+        total
+        start
+        count
+        dicomFiles{
+            urn
+            info{
+                fileURI
+                patientName
+                patientGender
+                patientDisease
+            }
+            ownership{
+                owners{
+                    source{
+                        url
+                    }
+                    type
+                }
+            }
+        }
+    }
+}
