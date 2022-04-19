@@ -106,10 +106,17 @@ export class DicomEntity implements Entity<Dicom> {
     );
 
     getProperties = (data: Dicom): StringMapEntry[] => {
+        const rbc = data.info?.bloodStats.rbcCount as any as string;
+        const wbc = data.info?.bloodStats.rbcCount as any as string;
+        const vector = data.info?.embeddingVector as any as string;
         return [
             { key: 'patientName', value: data?.info?.patientName, __typename: 'StringMapEntry' },
             { key: 'patientGender', value: data?.info?.patientGender, __typename: 'StringMapEntry' },
             { key: 'patientDisease', value: data?.info?.patientDisease, __typename: 'StringMapEntry' },
+            { key: 'fileURI', value: data?.info?.fileURI, __typename: 'StringMapEntry' },
+            { key: 'rbc', value: rbc, __typename: 'StringMapEntry' },
+            { key: 'wbc', value: wbc, __typename: 'StringMapEntry' },
+            { key: 'embeddingVector', value: vector, __typename: 'StringMapEntry' },
         ];
     };
 

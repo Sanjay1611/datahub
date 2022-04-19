@@ -262,6 +262,15 @@ fragment searchResultFields on Entity {
             patientName
             patientGender
             patientDisease
+            embeddingVector
+            fileURI
+            bloodStats {
+                rbcCount
+                wbcCount
+            }
+        }
+        ownership {
+            ...ownershipFields
         }
     }
     ... on Container {

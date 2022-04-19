@@ -207,6 +207,14 @@ query getBrowseResults($input: BrowseInput!) {
                     patientGender
                     patientDisease
                     embeddingVector
+                    fileURI
+                    bloodStats {
+                        rbcCount
+                        wbcCount
+                    }
+                }
+                ownership {
+                    ...ownershipFields
                 }
             }
         }

@@ -1,13 +1,27 @@
 query getDicom($urn: String!) {
     dicom(urn: $urn){
-    urn
-    type
-    info{
-      patientName
-      patientGender
-      patientDisease
-    } 
-  }
+        urn
+        type
+        info{
+            patientName
+            patientGender
+            patientDisease
+            embeddingVector
+            fileURI
+            bloodStats {
+                rbcCount
+                wbcCount
+            }
+        }
+        ownership{
+            owners{
+                source{
+                    url
+                }
+                type
+            }
+        }
+    }
 }
 
 query listDicom($input: ListDicomInput!) {
@@ -22,6 +36,11 @@ query listDicom($input: ListDicomInput!) {
                 patientName
                 patientGender
                 patientDisease
+                embeddingVector
+                bloodStats {
+                    rbcCount
+                    wbcCount
+                }
             }
             ownership{
                 owners{
