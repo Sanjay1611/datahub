@@ -47,7 +47,7 @@ public class DicomType implements SearchableEntityType<Dicom>, BrowsableEntityTy
             OWNERSHIP_ASPECT_NAME
     );
 
-    private static final Set<String> FACET_FIELDS = ImmutableSet.of("name");
+    private static final Set<String> FACET_FIELDS = ImmutableSet.of("dicomName");
     private static final String ENTITY_NAME = "dicom";
 
     private final EntityClient _entityClient;

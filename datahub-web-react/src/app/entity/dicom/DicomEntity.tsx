@@ -1,19 +1,13 @@
 import * as React from 'react';
 import { DatabaseFilled, DatabaseOutlined } from '@ant-design/icons';
 import { Entity, IconStyleType, PreviewType } from '../Entity';
-import { Dicom, EntityType, SearchResult } from '../../../types.generated';
+import { Dicom, EntityType, SearchResult, StringMapEntry } from '../../../types.generated';
 import { Preview } from './preview/Preview';
 import { EntityProfile } from '../shared/containers/profile/EntityProfile';
 import { useUpdateDatasetMutation } from '../../../graphql/dataset.generated';
 import { useGetDicomQuery } from '../../../graphql/dicom.generated';
-import { SchemaTab } from '../shared/tabs/Dataset/Schema/SchemaTab';
-import ViewDefinitionTab from '../shared/tabs/Dataset/View/ViewDefinitionTab';
 import { DocumentationTab } from '../shared/tabs/Documentation/DocumentationTab';
 import { PropertiesTab } from '../shared/tabs/Properties/PropertiesTab';
-import { LineageTab } from '../shared/tabs/Lineage/LineageTab';
-import QueriesTab from '../shared/tabs/Dataset/Queries/QueriesTab';
-import StatsTab from '../shared/tabs/Dataset/Stats/StatsTab';
-import { ValidationsTab } from '../shared/tabs/Dataset/Validations/ValidationsTab';
 import { getDataForEntityType } from '../shared/containers/profile/utils';
 import { SidebarAboutSection } from '../shared/containers/profile/sidebar/SidebarAboutSection';
 import { SidebarOwnerSection } from '../shared/containers/profile/sidebar/Ownership/SidebarOwnerSection';
@@ -85,40 +79,16 @@ export class DicomEntity implements Entity<Dicom> {
             getOverrideProperties={this.getOverridePropertiesFromEntity}
             tabs={[
                 {
-                    name: 'Schema',
-                    component: SchemaTab,
-                },
-                {
-                    name: 'View Definition',
-                    component: ViewDefinitionTab,
+                    name: 'View Properties',
+                    component: PropertiesTab,
                     display: {
                         visible: () => true,
-                        enabled: () => false,
+                        enabled: () => true,
                     },
                 },
                 {
                     name: 'Documentation',
                     component: DocumentationTab,
-                },
-                {
-                    name: 'Properties',
-                    component: PropertiesTab,
-                },
-                {
-                    name: 'Lineage',
-                    component: LineageTab,
-                },
-                {
-                    name: 'Queries',
-                    component: QueriesTab,
-                },
-                {
-                    name: 'Stats',
-                    component: StatsTab,
-                },
-                {
-                    name: 'Validation',
-                    component: ValidationsTab,
                 },
             ]}
             sidebarSections={[
@@ -135,9 +105,19 @@ export class DicomEntity implements Entity<Dicom> {
         />
     );
 
+    getProperties = (data: Dicom): StringMapEntry[] => {
+        return [
+            { key: 'patientName', value: data?.info?.patientName, __typename: 'StringMapEntry' },
+            { key: 'patientGender', value: data?.info?.patientGender, __typename: 'StringMapEntry' },
+            { key: 'patientDisease', value: data?.info?.patientDisease, __typename: 'StringMapEntry' },
+        ];
+    };
+
     getOverridePropertiesFromEntity = (data: Dicom) => {
         return {
-            name: data.dicomName,
+            name: data?.dicomName,
+            customProperties: this.getProperties(data),
+            patientName: data.info?.patientName,
         };
     };
 
